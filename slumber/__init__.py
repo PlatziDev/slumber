@@ -83,7 +83,7 @@ class Resource(ResourceAttributesMixin, object):
 
         return self._get_resource(**kwargs)
 
-    def _request(self, method, data=None, files=None, params=None):
+    def _request(self, method, data=None, files=None, timeout=None, params=None):
         serializer = self._store["serializer"]
         url = self.url()
 
@@ -94,7 +94,9 @@ class Resource(ResourceAttributesMixin, object):
             if data is not None:
                 data = serializer.dumps(data)
 
-        resp = self._store["session"].request(method, url, data=data, params=params, files=files, headers=headers)
+        resp = self._store["session"].request(
+            method, url, data=data, params=params, files=files, headers=headers, timeout=timeout
+        )
 
         if 400 <= resp.status_code <= 499:
             exception_class = exceptions.HttpNotFoundError if resp.status_code == 404 else exceptions.HttpClientError
