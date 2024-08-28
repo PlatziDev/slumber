@@ -196,7 +196,7 @@ class API(ResourceAttributesMixin, object):
 
     resource_class = Resource
 
-    def __init__(self, base_url=None, auth=None, format=None, append_slash=True, session=None, serializer=None, timeout=None):
+    def __init__(self, base_url=None, auth=None, format=None, append_slash=True, session=None, serializer=None, timeout=None, retries=3):
         if serializer is None:
             serializer = Serializer(default=format)
 
@@ -213,6 +213,7 @@ class API(ResourceAttributesMixin, object):
             "session": session,
             "serializer": serializer,
             "timeout": timeout,
+            "retries": retries,
         }
 
         # Do some Checks for Required Values
